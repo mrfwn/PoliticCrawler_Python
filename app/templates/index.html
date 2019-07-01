@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<meta http-equiv="x-ua-compatible" content="ie=edge">
+
+		<title>ON10</title>
+
+        <!-- Bootstrap CSS -->
+		<link rel="stylesheet" href="{{ url_for('static', filename='fonts/font-roboto.css')}}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='font-awesome/css/font-awesome.min.css')}}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='web-analytics/style.css')}}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap4-alpha3.min.css')}}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css')}}">
+		<!-- Scripts -->
+	    <script src="{{ url_for('static', filename='js/Chart.bundle.js')}}"></script>
+        <script src="{{ url_for('static', filename='js/utils.js')}}"></script>
+        <script src="{{ url_for('static', filename='js/jquery-3.1.0.min.js')}}"></script>
+        <script src="{{ url_for('static', filename='js/tether.min.js')}}"></script>
+        <script src="{{ url_for('static', filename='js/bootstrap4-alpha3.min.js')}}"></script>
+        <script src="{{ url_for('static', filename='js/canvasjs.min.js')}}"></script>
+        <script src="{{ url_for('static', filename='js/gauge.min.js')}}"></script>
+		<!-- <script src="../static/web-analytics/real-time.js"></script> -->
+		<!-- <script src="../static/web-analytics/overview.js"></script> -->
+<style>
+.graph_container{
+	display:block;
+	width: 40%;
+}
+</style>
+<script>
+var bdpeData = {
+			labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
+			datasets: [{
+				label: 'Tipo A',
+				backgroundColor: window.chartColors.red,
+				data: [
+					'{{ocorrenciaPorMes["bdpe"]["Janeiro"]["A"]}}',
+					'{{ocorrenciaPorMes["bdpe"]["Fevereiro"]["A"]}}',
+					'{{ocorrenciaPorMes["bdpe"]["Março"]["A"]}}',
+					'{{ocorrenciaPorMes["bdpe"]["Abril"]["A"]}}',
+					'{{ocorrenciaPorMes["bdpe"]["Maio"]["A"]}}',
+					'{{ocorrenciaPorMes["bdpe"]["Junho"]["A"]}}',
+					'{{ocorrenciaPorMes["bdpe"]["Julho"]["A"]}}',
+					'{{ocorrenciaPorMes["bdpe"]["Agosto"]["A"]}}',
+					'{{ocorrenciaPorMes["bdpe"]["Setembro"]["A"]}}',
+					'{{ocorrenciaPorMes["bdpe"]["Outubro"]["A"]}}',
+					'{{ocorrenciaPorMes["bdpe"]["Novembro"]["A"]}}',
+					'{{ocorrenciaPorMes["bdpe"]["Dezembro"]["A"]}}'
+				]
+			}, {
+				label: 'Tipo B',
+				backgroundColor: window.chartColors.blue,
+				data: [
+					'{{ocorrenciaPorMes["bdpe"]["Janeiro"]["B"]}}',
+					'{{ocorrenciaPorMes["bdpe"]["Fevereiro"]["B"]}}',
+					'{{ocorrenciaPorMes["bdpe"]["Março"]["B"]}}',
+					'{{ocorrenciaPorMes["bdpe"]["Abril"]["B"]}}',
+					'{{ocorrenciaPorMes["bdpe"]["Maio"]["B"]}}',
+					'{{ocorrenciaPorMes["bdpe"]["Junho"]["B"]}}',
+					'{{ocorrenciaPorMes["bdpe"]["Julho"]["B"]}}',
+					'{{ocorrenciaPorMes["bdpe"]["Agosto"]["B"]}}',
+					'{{ocorrenciaPorMes["bdpe"]["Setembro"]["B"]}}',
+					'{{ocorrenciaPorMes["bdpe"]["Outubro"]["B"]}}',
+					'{{ocorrenciaPorMes["bdpe"]["Novembro"]["B"]}}',
+					'{{ocorrenciaPorMes["bdpe"]["Dezembro"]["B"]}}'
+				]
+			}, {
+				label: 'Tipo C',
+				backgroundColor: window.chartColors.green,
+				data: [
+					'{{ocorrenciaPorMes["bdpe"]["Janeiro"]["C"]}}',
+					'{{ocorrenciaPorMes["bdpe"]["Fevereiro"]["C"]}}',
+					'{{ocorrenciaPorMes["bdpe"]["Março"]["C"]}}',
+					'{{ocorrenciaPorMes["bdpe"]["Abril"]["C"]}}',
+					'{{ocorrenciaPorMes["bdpe"]["Maio"]["C"]}}',
+					'{{ocorrenciaPorMes["bdpe"]["Junho"]["C"]}}',
+					'{{ocorrenciaPorMes["bdpe"]["Julho"]["C"]}}',
+					'{{ocorrenciaPorMes["bdpe"]["Agosto"]["C"]}}',
+					'{{ocorrenciaPorMes["bdpe"]["Setembro"]["C"]}}',
+					'{{ocorrenciaPorMes["bdpe"]["Outubro"]["C"]}}',
+					'{{ocorrenciaPorMes["bdpe"]["Novembro"]["C"]}}',
+					'{{ocorrenciaPorMes["bdpe"]["Dezembro"]["C"]}}'
+				]
+			}]
+
+		};
+var netv1Data = {
+			labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
+			datasets: [{
+				label: 'Tipo A',
+				backgroundColor: window.chartColors.red,
+				data: [
+					'{{ocorrenciaPorMes["netv1"]["Janeiro"]["A"]}}',
+					'{{ocorrenciaPorMes["netv1"]["Fevereiro"]["A"]}}',
+					'{{ocorrenciaPorMes["netv1"]["Março"]["A"]}}',
+					'{{ocorrenciaPorMes["netv1"]["Abril"]["A"]}}',
+					'{{ocorrenciaPorMes["netv1"]["Maio"]["A"]}}',
+					'{{ocorrenciaPorMes["netv1"]["Junho"]["A"]}}',
+					'{{ocorrenciaPorMes["netv1"]["Julho"]["A"]}}',
+					'{{ocorrenciaPorMes["netv1"]["Agosto"]["A"]}}',
+					'{{ocorrenciaPorMes["netv1"]["Setembro"]["A"]}}',
+					'{{ocorrenciaPorMes["netv1"]["Outubro"]["A"]}}',
+					'{{ocorrenciaPorMes["netv1"]["Novembro"]["A"]}}',
+					'{{ocorrenciaPorMes["netv1"]["Dezembro"]["A"]}}'
+				]
+			}, {
+				label: 'Tipo B',
+				backgroundColor: window.chartColors.blue,
+				data: [
+					'{{ocorrenciaPorMes["netv1"]["Janeiro"]["B"]}}',
+					'{{ocorrenciaPorMes["netv1"]["Fevereiro"]["B"]}}',
+					'{{ocorrenciaPorMes["netv1"]["Março"]["B"]}}',
+					'{{ocorrenciaPorMes["netv1"]["Abril"]["B"]}}',
+					'{{ocorrenciaPorMes["netv1"]["Maio"]["B"]}}',
+					'{{ocorrenciaPorMes["netv1"]["Junho"]["B"]}}',
+					'{{ocorrenciaPorMes["netv1"]["Julho"]["B"]}}',
+					'{{ocorrenciaPorMes["netv1"]["Agosto"]["B"]}}',
+					'{{ocorrenciaPorMes["netv1"]["Setembro"]["B"]}}',
+					'{{ocorrenciaPorMes["netv1"]["Outubro"]["B"]}}',
+					'{{ocorrenciaPorMes["netv1"]["Novembro"]["B"]}}',
+					'{{ocorrenciaPorMes["netv1"]["Dezembro"]["B"]}}'
+				]
+			}, {
+				label: 'Tipo C',
+				backgroundColor: window.chartColors.green,
+				data: [
+					'{{ocorrenciaPorMes["netv1"]["Janeiro"]["C"]}}',
+					'{{ocorrenciaPorMes["netv1"]["Fevereiro"]["C"]}}',
+					'{{ocorrenciaPorMes["netv1"]["Março"]["C"]}}',
+					'{{ocorrenciaPorMes["netv1"]["Abril"]["C"]}}',
+					'{{ocorrenciaPorMes["netv1"]["Maio"]["C"]}}',
+					'{{ocorrenciaPorMes["netv1"]["Junho"]["C"]}}',
+					'{{ocorrenciaPorMes["netv1"]["Julho"]["C"]}}',
+					'{{ocorrenciaPorMes["netv1"]["Agosto"]["C"]}}',
+					'{{ocorrenciaPorMes["netv1"]["Setembro"]["C"]}}',
+					'{{ocorrenciaPorMes["netv1"]["Outubro"]["C"]}}',
+					'{{ocorrenciaPorMes["netv1"]["Novembro"]["C"]}}',
+					'{{ocorrenciaPorMes["netv1"]["Dezembro"]["C"]}}'
+				]
+			}]
+				};
+var geData = {
+							labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
+							datasets: [{
+								label: 'Tipo A',
+								backgroundColor: window.chartColors.red,
+								data: [
+									'{{ocorrenciaPorMes["ge"]["Janeiro"]["A"]}}',
+									'{{ocorrenciaPorMes["ge"]["Fevereiro"]["A"]}}',
+									'{{ocorrenciaPorMes["ge"]["Março"]["A"]}}',
+									'{{ocorrenciaPorMes["ge"]["Abril"]["A"]}}',
+									'{{ocorrenciaPorMes["ge"]["Maio"]["A"]}}',
+									'{{ocorrenciaPorMes["ge"]["Junho"]["A"]}}',
+									'{{ocorrenciaPorMes["ge"]["Julho"]["A"]}}',
+									'{{ocorrenciaPorMes["ge"]["Agosto"]["A"]}}',
+									'{{ocorrenciaPorMes["ge"]["Setembro"]["A"]}}',
+									'{{ocorrenciaPorMes["ge"]["Outubro"]["A"]}}',
+									'{{ocorrenciaPorMes["ge"]["Novembro"]["A"]}}',
+									'{{ocorrenciaPorMes["ge"]["Dezembro"]["A"]}}'
+								]
+							}, {
+								label: 'Tipo B',
+								backgroundColor: window.chartColors.blue,
+								data: [
+									'{{ocorrenciaPorMes["ge"]["Janeiro"]["B"]}}',
+									'{{ocorrenciaPorMes["ge"]["Fevereiro"]["B"]}}',
+									'{{ocorrenciaPorMes["ge"]["Março"]["B"]}}',
+									'{{ocorrenciaPorMes["ge"]["Abril"]["B"]}}',
+									'{{ocorrenciaPorMes["ge"]["Maio"]["B"]}}',
+									'{{ocorrenciaPorMes["ge"]["Junho"]["B"]}}',
+									'{{ocorrenciaPorMes["ge"]["Julho"]["B"]}}',
+									'{{ocorrenciaPorMes["ge"]["Agosto"]["B"]}}',
+									'{{ocorrenciaPorMes["ge"]["Setembro"]["B"]}}',
+									'{{ocorrenciaPorMes["ge"]["Outubro"]["B"]}}',
+									'{{ocorrenciaPorMes["ge"]["Novembro"]["B"]}}',
+									'{{ocorrenciaPorMes["ge"]["Dezembro"]["B"]}}'
+								]
+							}, {
+								label: 'Tipo C',
+								backgroundColor: window.chartColors.green,
+								data: [
+									'{{ocorrenciaPorMes["ge"]["Janeiro"]["C"]}}',
+									'{{ocorrenciaPorMes["ge"]["Fevereiro"]["C"]}}',
+									'{{ocorrenciaPorMes["ge"]["Março"]["C"]}}',
+									'{{ocorrenciaPorMes["ge"]["Abril"]["C"]}}',
+									'{{ocorrenciaPorMes["ge"]["Maio"]["C"]}}',
+									'{{ocorrenciaPorMes["ge"]["Junho"]["C"]}}',
+									'{{ocorrenciaPorMes["ge"]["Julho"]["C"]}}',
+									'{{ocorrenciaPorMes["ge"]["Agosto"]["C"]}}',
+									'{{ocorrenciaPorMes["ge"]["Setembro"]["C"]}}',
+									'{{ocorrenciaPorMes["ge"]["Outubro"]["C"]}}',
+									'{{ocorrenciaPorMes["ge"]["Novembro"]["C"]}}',
+									'{{ocorrenciaPorMes["ge"]["Dezembro"]["C"]}}'
+								]
+							}]
+
+						};
+var netv2Data = {
+		labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
+		datasets: [{
+			label: 'Tipo A',
+			backgroundColor: window.chartColors.red,
+			data: [
+				'{{ocorrenciaPorMes["netv2"]["Janeiro"]["A"]}}',
+				'{{ocorrenciaPorMes["netv2"]["Fevereiro"]["A"]}}',
+				'{{ocorrenciaPorMes["netv2"]["Março"]["A"]}}',
+				'{{ocorrenciaPorMes["netv2"]["Abril"]["A"]}}',
+				'{{ocorrenciaPorMes["netv2"]["Maio"]["A"]}}',
+				'{{ocorrenciaPorMes["netv2"]["Junho"]["A"]}}',
+				'{{ocorrenciaPorMes["netv2"]["Julho"]["A"]}}',
+				'{{ocorrenciaPorMes["netv2"]["Agosto"]["A"]}}',
+				'{{ocorrenciaPorMes["netv2"]["Setembro"]["A"]}}',
+				'{{ocorrenciaPorMes["netv2"]["Outubro"]["A"]}}',
+				'{{ocorrenciaPorMes["netv2"]["Novembro"]["A"]}}',
+				'{{ocorrenciaPorMes["netv2"]["Dezembro"]["A"]}}'
+			]
+		}, {
+			label: 'Tipo B',
+			backgroundColor: window.chartColors.blue,
+			data: [
+				'{{ocorrenciaPorMes["netv2"]["Janeiro"]["B"]}}',
+				'{{ocorrenciaPorMes["netv2"]["Fevereiro"]["B"]}}',
+				'{{ocorrenciaPorMes["netv2"]["Março"]["B"]}}',
+				'{{ocorrenciaPorMes["netv2"]["Abril"]["B"]}}',
+				'{{ocorrenciaPorMes["netv2"]["Maio"]["B"]}}',
+				'{{ocorrenciaPorMes["netv2"]["Junho"]["B"]}}',
+				'{{ocorrenciaPorMes["netv2"]["Julho"]["B"]}}',
+				'{{ocorrenciaPorMes["netv2"]["Agosto"]["B"]}}',
+				'{{ocorrenciaPorMes["netv2"]["Setembro"]["B"]}}',
+				'{{ocorrenciaPorMes["netv2"]["Outubro"]["B"]}}',
+				'{{ocorrenciaPorMes["netv2"]["Novembro"]["B"]}}',
+				'{{ocorrenciaPorMes["netv2"]["Dezembro"]["B"]}}'
+			]
+		}, {
+			label: 'Tipo C',
+			backgroundColor: window.chartColors.green,
+			data: [
+				'{{ocorrenciaPorMes["netv2"]["Janeiro"]["C"]}}',
+				'{{ocorrenciaPorMes["netv2"]["Fevereiro"]["C"]}}',
+				'{{ocorrenciaPorMes["netv2"]["Março"]["C"]}}',
+				'{{ocorrenciaPorMes["netv2"]["Abril"]["C"]}}',
+				'{{ocorrenciaPorMes["netv2"]["Maio"]["C"]}}',
+				'{{ocorrenciaPorMes["netv2"]["Junho"]["C"]}}',
+				'{{ocorrenciaPorMes["netv2"]["Julho"]["C"]}}',
+				'{{ocorrenciaPorMes["netv2"]["Agosto"]["C"]}}',
+				'{{ocorrenciaPorMes["netv2"]["Setembro"]["C"]}}',
+				'{{ocorrenciaPorMes["netv2"]["Outubro"]["C"]}}',
+				'{{ocorrenciaPorMes["netv2"]["Novembro"]["C"]}}',
+				'{{ocorrenciaPorMes["netv2"]["Dezembro"]["C"]}}'
+			]
+		}]
+
+								};
+	window.onload = function() {
+				var bdpeBar = document.getElementById('bdpeBar').getContext('2d');
+				var netv1Bar = document.getElementById('netv1Bar').getContext('2d');
+				var geBar = document.getElementById('geBar').getContext('2d');
+				var netv2Bar = document.getElementById('netv2Bar').getContext('2d');
+			window.myBar = new Chart(bdpeBar, {
+					type: 'bar',
+					data: bdpeData,
+					options: {
+						title: {
+							display: true,
+							text: 'BDPE'
+						},
+						tooltips: {
+							mode: 'index',
+							intersect: false
+						},
+						responsive: true,
+						scales: {
+							xAxes: [{
+								stacked: true,
+							}],
+							yAxes: [{
+								stacked: true
+							}]
+						}
+					}
+				});
+			window.myBar = new Chart(netv1Bar, {
+				type: 'bar',
+				data: netv1Data,
+				options: {
+					title: {
+						display: true,
+						text: 'NETV1'
+					},
+					tooltips: {
+						mode: 'index',
+						intersect: false
+					},
+					responsive: true,
+					scales: {
+						xAxes: [{
+							stacked: true,
+						}],
+						yAxes: [{
+							stacked: true
+						}]
+					}
+				}
+			});
+			window.myBar = new Chart(geBar, {
+				type: 'bar',
+				data: geData,
+				options: {
+					title: {
+						display: true,
+						text: 'GE'
+					},
+					tooltips: {
+						mode: 'index',
+						intersect: false
+					},
+					responsive: true,
+					scales: {
+						xAxes: [{
+							stacked: true,
+						}],
+						yAxes: [{
+							stacked: true
+						}]
+					}
+				}
+			});
+			window.myBar = new Chart(netv2Bar, {
+				type: 'bar',
+				data: netv2Data,
+				options: {
+					title: {
+						display: true,
+						text: 'NETV2'
+					},
+					tooltips: {
+						mode: 'index',
+						intersect: false
+					},
+					responsive: true,
+					scales: {
+						xAxes: [{
+							stacked: true,
+						}],
+						yAxes: [{
+							stacked: true
+						}]
+					}
+				}
+			});
+	};
+</script>
+
+<script>
+	$(function () {
+		var bdpe = new RadialGauge({
+			renderTo: 'bdpe',
+			width: 300,
+			height: 300,
+			units: '{{ mtbfValue["bdpe"] }}',
+			minValue: 0,
+			startAngle: 90,
+			ticksAngle: 180,
+			valueBox: false,
+			maxValue: '{{goalProgram["bdpe"]*2}}',
+			majorTicks: [],
+			minorTicks: 2,
+			strokeTicks: true,
+			highlights: [
+				{"from": 0, "to": '{{goalProgram["bdpe"]}}', "color": "rgba(200, 50, 50, .75)"},
+				{"from": '{{goalProgram["bdpe"]}}', "to": '{{goalProgram["bdpe"]*2}}', "color": "rgba(81, 205, 160, .75)"}
+			],
+			colorPlate: "#fff",
+			borderShadowWidth: 0,
+			borders: false,
+			needleType: "arrow",
+			needleWidth: 2,
+			needleCircleSize: 7,
+			needleCircleOuter: true,
+			needleCircleInner: false,
+			animationDuration: 1500,
+			animationRule: "linear"
+			}).draw();
+		var netv1 = new RadialGauge({
+			renderTo: 'netv1',
+			width: 300,
+			height: 300,
+			units: '{{ mtbfValue["netv1"] }}',
+			minValue: 0,
+			startAngle: 90,
+			ticksAngle: 180,
+			valueBox: false,
+			maxValue: '{{goalProgram["netv1"]*2}}',
+			majorTicks: [
+
+			],
+			minorTicks: 2,
+			strokeTicks: true,
+			highlights: [
+			{"from": 0, "to": '{{goalProgram["netv1"]}}', "color": "rgba(200, 50, 50, .75)"},
+			{"from": '{{goalProgram["netv1"]}}', "to": '{{goalProgram["netv1"]*2}}', "color": "rgba(81, 205, 160, .75)"}
+			],
+			colorPlate: "#fff",
+			borderShadowWidth: 0,
+			borders: false,
+			needleType: "arrow",
+			needleWidth: 2,
+			needleCircleSize: 7,
+			needleCircleOuter: true,
+			needleCircleInner: false,
+			animationDuration: 1500,
+			animationRule: "linear"
+			}).draw();
+		var ge = new RadialGauge({
+			renderTo: 'ge',
+			width: 300,
+			height: 300,
+			units: '{{ mtbfValue["ge"] }}',
+			minValue: 0,
+			startAngle: 90,
+			ticksAngle: 180,
+			valueBox: false,
+			maxValue: '{{goalProgram["ge"]*2}}',
+			majorTicks: [
+
+			],
+			minorTicks: 2,
+			strokeTicks: true,
+			highlights: [
+			{"from": 0, "to": '{{goalProgram["ge"]}}', "color": "rgba(200, 50, 50, .75)"},
+			{"from": '{{goalProgram["ge"]}}', "to": '{{goalProgram["ge"]*2}}', "color": "rgba(81, 205, 160, .75)"}
+			],
+			colorPlate: "#fff",
+			borderShadowWidth: 0,
+			borders: false,
+			needleType: "arrow",
+			needleWidth: 2,
+			needleCircleSize: 7,
+			needleCircleOuter: true,
+			needleCircleInner: false,
+			animationDuration: 1500,
+			animationRule: "linear"
+			}).draw();
+		var netv2 = new RadialGauge({
+			renderTo: 'netv2',
+			width: 300,
+			height: 300,
+			units: '{{ mtbfValue["netv2"] }}',
+			minValue: 0,
+			startAngle: 90,
+			ticksAngle: 180,
+			valueBox: false,
+			maxValue: '{{goalProgram["netv2"]*2}}',
+			majorTicks: [
+
+			],
+			minorTicks: 2,
+			strokeTicks: true,
+			highlights: [
+			{"from": 0, "to": '{{goalProgram["netv2"]}}', "color": "rgba(200, 50, 50, .75)"},
+			{"from": '{{goalProgram["netv2"]}}', "to": '{{goalProgram["netv2"]*2}}', "color": "rgba(81, 205, 160, .75)"}
+			],
+			colorPlate: "#fff",
+			borderShadowWidth: 0,
+			borders: false,
+			needleType: "arrow",
+			needleWidth: 2,
+			needleCircleSize: 7,
+			needleCircleOuter: true,
+			needleCircleInner: false,
+			animationDuration: 1500,
+			animationRule: "linear"
+			}).draw();
+		bdpe.value = '{{ mtbfValue["bdpe"] }}';
+		netv1.value = '{{ mtbfValue["netv1"] }}';
+		ge.value = '{{ mtbfValue["ge"] }}';
+		netv2.value = '{{ mtbfValue["netv2"] }}';
+	});
+</script>
+
+<!-- <script>
+	$(function () {
+		CanvasJS.addColorSet("customColorSet", [
+			"#393f63",
+			"#e5d8B0",
+			"#ffb367",
+			"#f98461",
+			"#d9695f",
+			"#e05850",
+		]);
+		var tipoOcorrencia = new CanvasJS.Chart("idTipoOcorrencia", {
+			animationDuration: 800,
+			animationEnabled: true,
+			backgroundColor: "transparent",
+			colorSet: "customColorSet",
+			axisX: {
+				labelFontColor: "#717171",
+				labelFontSize: 18,
+				lineThickness: 0,
+				tickThickness: 0
+			},
+			axisY: {
+				gridThickness: 0,
+				lineThickness: 0,
+				tickThickness: 0,
+				valueFormatString: " "
+			},
+			toolTip: {
+				cornerRadius: 0,
+				fontStyle: "normal",
+				contentFormatter: function (e) {
+					return e.entries[0].dataPoint.label + ": " + e.entries[0].dataPoint.y ;
+				}
+			},
+			data: [
+				{
+					indexLabelFontColor: "#717171",
+					indexLabelFontFamily: "calibri",
+					indexLabelFontSize: 18,
+					indexLabelPlacement: "outside",
+					indexLabelFormatter: function (e) {
+						return e.dataPoint.y ;
+					},
+					type: "bar",
+					dataPoints: [
+						{ y: 10,  label: "A" },
+						{ y: 9, label: "B" },
+						{ y: 8,  label: "C" },
+						{ y: 7, label: "D" },
+						{ y: 6, label: "E" },
+						{ y: 5, label: "F" }
+					]
+				}
+			]
+		});
+		tipoOcorrencia.render();
+});
+</script> -->
+
+<script>
+	$(function () {
+		var barOptions_stacked = {
+			tooltips: {
+					enabled: false
+			},
+			hover :{
+					animationDuration:0
+			},
+			scales: {
+					xAxes: [{
+							ticks: {
+									beginAtZero:true,
+									fontFamily: "'Open Sans Bold', sans-serif",
+									fontSize:15
+							},
+							scaleLabel:{
+									display:false
+							},
+							gridLines: {
+							},
+							stacked: true
+					}],
+					yAxes: [{
+							gridLines: {
+									display:false,
+									color: "#fff",
+									zeroLineColor: "#fff",
+									zeroLineWidth: 0
+							},
+							ticks: {
+									fontFamily: "'Open Sans Bold', sans-serif",
+									fontSize:15
+							},
+							stacked: true
+					}]
+			},
+			legend:{
+					display:false
+			},
+
+			animation: {
+					onComplete: function () {
+							var chartInstance = this.chart;
+							var ctx = chartInstance.ctx;
+							ctx.textAlign = "left";
+							ctx.font = "14px Open Sans";
+							ctx.fillStyle = "#fff";
+
+							Chart.helpers.each(this.data.datasets.forEach(function (dataset, i) {
+									var meta = chartInstance.controller.getDatasetMeta(i);
+									Chart.helpers.each(meta.data.forEach(function (bar, index) {
+											data = dataset.data[index];
+											if(i==0){
+													ctx.fillText(data, 50, bar._model.y+4);
+											} else {
+													ctx.fillText(data, bar._model.x-25, bar._model.y+4);
+											}
+									}),this)
+							}),this);
+					}
+			},
+			pointLabelFontFamily : "Quadon Extra Bold",
+			scaleFontFamily : "Quadon Extra Bold",
+		};
+		var ctx = document.getElementById("tipoFalha1");
+		var myChart = new Chart(ctx, {
+			type: 'horizontalBar',
+			data: {
+					labels: ["WebLink", "Microfone", "Servidores de Mídias", "GLoboCop", "Automação", "Fibra Ótica", "Videografismo", "Mesa de Áudio", "Modulares", "Comunicação", "Original de Geração"],
+
+					datasets: [{
+							data: ['{{ocorrenciaTipo["WebLink"]["A"]}}', '{{ocorrenciaTipo["Microfone"]["A"]}}', '{{ocorrenciaTipo["Servidores de Mídias"]["A"]}}', '{{ocorrenciaTipo["GLoboCop"]["A"]}}','{{ocorrenciaTipo["Automação"]["A"]}}','{{ocorrenciaTipo["Fibra Ótica"]["A"]}}','{{ocorrenciaTipo["Videografismo"]["A"]}}','{{ocorrenciaTipo["Mesa de Áudio"]["A"]}}', '{{ocorrenciaTipo["Modulares"]["A"]}}', '{{ocorrenciaTipo["Comunicação"]["A"]}}', '{{ocorrenciaTipo["Original de Geração"]["A"]}}'],
+							backgroundColor: "rgba(224,88,80,1)",
+							hoverBackgroundColor: "rgba(224,88,80, 0.7)"
+					},{
+							data: ['{{ocorrenciaTipo["WebLink"]["B"]}}', '{{ocorrenciaTipo["Microfone"]["B"]}}', '{{ocorrenciaTipo["Servidores de Mídias"]["B"]}}', '{{ocorrenciaTipo["GLoboCop"]["B"]}}','{{ocorrenciaTipo["Automação"]["B"]}}','{{ocorrenciaTipo["Fibra Ótica"]["B"]}}','{{ocorrenciaTipo["Videografismo"]["B"]}}','{{ocorrenciaTipo["Mesa de Áudio"]["B"]}}', '{{ocorrenciaTipo["Modulares"]["B"]}}', '{{ocorrenciaTipo["Comunicação"]["B"]}}', '{{ocorrenciaTipo["Original de Geração"]["B"]}}'],
+							backgroundColor: "rgba(249,132,97,1)",
+							hoverBackgroundColor: "rgba(249,132,97, 0.7)"
+					},{
+							data: ['{{ocorrenciaTipo["WebLink"]["C"]}}', '{{ocorrenciaTipo["Microfone"]["C"]}}', '{{ocorrenciaTipo["Servidores de Mídias"]["C"]}}', '{{ocorrenciaTipo["GLoboCop"]["C"]}}','{{ocorrenciaTipo["Automação"]["C"]}}','{{ocorrenciaTipo["Fibra Ótica"]["C"]}}','{{ocorrenciaTipo["Videografismo"]["C"]}}','{{ocorrenciaTipo["Mesa de Áudio"]["C"]}}', '{{ocorrenciaTipo["Modulares"]["C"]}}', '{{ocorrenciaTipo["Comunicação"]["C"]}}', '{{ocorrenciaTipo["Original de Geração"]["C"]}}'],
+							backgroundColor: "rgba(255,179,103,1)",
+							hoverBackgroundColor: "rgba(249,132,97, 0.7)"
+					}]
+			},
+
+			options: barOptions_stacked,
+		});
+	});
+</script>
+
+<script>
+	$(function () {
+		var barOptions_stacked = {
+			tooltips: {
+					enabled: false
+			},
+			hover :{
+					animationDuration:0
+			},
+			scales: {
+					xAxes: [{
+							ticks: {
+									beginAtZero:true,
+									fontFamily: "'Open Sans Bold', sans-serif",
+									fontSize:15
+							},
+							scaleLabel:{
+									display:false
+							},
+							gridLines: {
+							},
+							stacked: true
+					}],
+					yAxes: [{
+							gridLines: {
+									display:false,
+									color: "#fff",
+									zeroLineColor: "#fff",
+									zeroLineWidth: 0
+							},
+							ticks: {
+									fontFamily: "'Open Sans Bold', sans-serif",
+									fontSize:15
+							},
+							stacked: true
+					}]
+			},
+			legend:{
+					display:false
+			},
+
+			animation: {
+					onComplete: function () {
+							var chartInstance = this.chart;
+							var ctx = chartInstance.ctx;
+							ctx.textAlign = "left";
+							ctx.font = "14px Open Sans";
+							ctx.fillStyle = "#fff";
+
+							Chart.helpers.each(this.data.datasets.forEach(function (dataset, i) {
+									var meta = chartInstance.controller.getDatasetMeta(i);
+									Chart.helpers.each(meta.data.forEach(function (bar, index) {
+											data = dataset.data[index];
+											if(i==0){
+													ctx.fillText(data, 50, bar._model.y+4);
+											} else {
+													ctx.fillText(data, bar._model.x-25, bar._model.y+4);
+											}
+									}),this)
+							}),this);
+					}
+			},
+			pointLabelFontFamily : "Quadon Extra Bold",
+			scaleFontFamily : "Quadon Extra Bold",
+		};
+		var ctx = document.getElementById("tipoFalha2");
+		var myChart = new Chart(ctx, {
+			type: 'horizontalBar',
+			data: {
+				labels: ["Diretor de TV", "Editor de Texto", "Coordenador de Programação", "Operador de Caracter / Videografista", "Operador de Áudio", "Técnico de Sistemas", "Coordenador de Jornalismo", "Editor Chefe / Executivo", "Operador de Controle Mestre", "Repórter"],
+
+				datasets: [{
+							data: ['{{ocorrenciaTipo["Diretor de TV"]["A"]}}', '{{ocorrenciaTipo["Editor de Texto"]["A"]}}', '{{ocorrenciaTipo["Coordenador de Programação"]["A"]}}', '{{ocorrenciaTipo["Operador de Caracter / Videografista"]["A"]}}','{{ocorrenciaTipo["Operador de Áudio"]["A"]}}','{{ocorrenciaTipo["Técnico de Sistemas"]["A"]}}','{{ocorrenciaTipo["Coordenador de Jornalismo"]["A"]}}','{{ocorrenciaTipo["Editor Chefe / Executivo"]["A"]}}', '{{ocorrenciaTipo["Operador de Controle Mestre"]["A"]}}','{{ocorrenciaTipo["Repórter"]["A"]}}'],
+							backgroundColor: "rgba(224,88,80,1)",
+							hoverBackgroundColor: "rgba(224,88,80, 0.7)"
+					},{
+							data: ['{{ocorrenciaTipo["Diretor de TV"]["B"]}}', '{{ocorrenciaTipo["Editor de Texto"]["B"]}}', '{{ocorrenciaTipo["Coordenador de Programação"]["B"]}}', '{{ocorrenciaTipo["Operador de Caracter / Videografista"]["B"]}}','{{ocorrenciaTipo["Operador de Áudio"]["B"]}}','{{ocorrenciaTipo["Técnico de Sistemas"]["B"]}}','{{ocorrenciaTipo["Coordenador de Jornalismo"]["B"]}}','{{ocorrenciaTipo["Editor Chefe / Executivo"]["B"]}}', '{{ocorrenciaTipo["Operador de Controle Mestre"]["B"]}}','{{ocorrenciaTipo["Repórter"]["B"]}}'],
+							backgroundColor: "rgba(249,132,97,1)",
+							hoverBackgroundColor: "rgba(249,132,97, 0.7)"
+					},{
+							data: ['{{ocorrenciaTipo["Diretor de TV"]["C"]}}', '{{ocorrenciaTipo["Editor de Texto"]["C"]}}', '{{ocorrenciaTipo["Coordenador de Programação"]["C"]}}', '{{ocorrenciaTipo["Operador de Caracter / Videografista"]["C"]}}','{{ocorrenciaTipo["Operador de Áudio"]["C"]}}','{{ocorrenciaTipo["Técnico de Sistemas"]["C"]}}','{{ocorrenciaTipo["Coordenador de Jornalismo"]["C"]}}','{{ocorrenciaTipo["Editor Chefe / Executivo"]["C"]}}', '{{ocorrenciaTipo["Operador de Controle Mestre"]["C"]}}','{{ocorrenciaTipo["Repórter"]["C"]}}'],
+							backgroundColor: "rgba(255,179,103,1)",
+							hoverBackgroundColor: "rgba(249,132,97, 0.7)"
+					}]
+			},
+
+			options: barOptions_stacked,
+		});
+	});
+</script>
+
+</head>
+<body>
+
+         <ul class="nav nav-tabs">
+			<li class="nav-item">
+		    <a  id="geral_tab" class="nav-link active" href="/">GERAL</a>
+		  </li>
+		  <li class="nav-item">
+		    <a id="bdpe_tab" class="nav-link" href="/bdpe">BDPE</a>
+		  </li>
+		  <li class="nav-item">
+		    <a id="netv1_tab"class="nav-link" href="/netv1">NETV 1</a>
+		  </li>
+		  <li class="nav-item">
+		    <a id="ge_tab" class="nav-link" href="/ge">GE</a>
+		  </li>
+		  <li class="nav-item">
+		    <a id="netv2_tab" class="nav-link" href="/netv2">NETV 2</a>
+          </li>
+          <li class="nav-item">
+		    <a id="upload_tab" class="nav-link" href="/upload">UPLOAD</a>
+		  </li>
+		</ul> 
+
+	<h2 id="header"><strong>ON10</strong></h2>
+
+	<div class="col-lg-3">
+		<h3>BDPE &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{ goalProgram["bdpe"] }}</h3>
+		<canvas id="bdpe" data-type="radial-gauge"></canvas>
+	</div>
+	<div class="col-lg-3">
+		<h3>NETV1 &nbsp;&nbsp;&nbsp;&nbsp; {{ goalProgram["netv1"] }}</h3>
+		<canvas id="netv1" data-type="radial-gauge"></canvas>
+	</div>
+	<div class="col-lg-3">
+		<h3>GE &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{ goalProgram["ge"] }}</h3>
+		<canvas id="ge" data-type="radial-gauge"></canvas>
+	</div>
+	<div class="col-lg-3">
+		<h3>NETV2 &nbsp;&nbsp;&nbsp;&nbsp; {{ goalProgram["netv2"] }}</h3>
+		<canvas id="netv2" data-type="radial-gauge"></canvas>
+	</div>
+
+	<h2 id="header"><strong>Ocorrências por Mês</strong></h2>
+
+	<div class="col-lg-3">
+		<canvas id="bdpeBar"></canvas>
+	</div>
+	<div class="col-lg-3">
+		<canvas id="netv1Bar"></canvas>
+	</div>
+	<div class="col-lg-3">
+		<canvas id="geBar"></canvas>
+	</div>
+	<div class="col-lg-3">
+		<canvas id="netv2Bar"></canvas>
+	</div>
+
+	<h2 id="header"><strong>Tipo da Falha</strong></h2>
+
+	<div class="col-lg-6 graph_container">
+		<canvas id="tipoFalha1"></canvas>
+	</div>
+
+	<div class="col-lg-6 graph_container">
+		<canvas id="tipoFalha2"></canvas>
+	</div>
+
+</body>
+</html>

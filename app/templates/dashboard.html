@@ -1,0 +1,66 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap4-alpha3.min.css')}}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css')}}">
+        <script src="{{ url_for('static', filename='js/bootstrap4-alpha3.min.js')}}"></script>
+        <script src="{{ url_for('static', filename='js/jquery-3.1.0.min.js')}}"></script>
+    </head>
+    <body>
+        <div class="jumbotron jumbotron-fluid">
+            <div class="container">    
+                <div style="margin-left: 35%">            
+                 <img class="card-img-top logo" src="{{ url_for('static', filename='img/globogrande.png')}}" alt="Card image cap">
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+        <h2 style="margin-left: 40%">TOP 10 COMIDA</h2>
+        <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col"></th>
+                <th scope="col">Nome</th>
+                <th scope="col">Tipo do Gasto</th>
+                <th scope="col">Valor R$</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% for n in range(tamanhoAlimentacao-1,tamanhoAlimentacao-11,-1) %}
+                    <tr>
+                        <th scope="row">{{ (tamanhoAlimentacao) - n }}</th>
+                        <td>{{ top10alimentacao[n]['Nome'] }}</td>
+                        <td>{{ top10alimentacao[n]['Gasto'] }}</td>
+                        <td>{{ "R$ %.2f" % top10alimentacao[n]['Total'] }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+          </table>
+        </div>
+
+        <div class="col-lg-6">
+                <h2 style="margin-left: 40%">TOP 10 COMBUSTIVEL</h2>
+                <table class="table table-striped">
+                    <thead>
+                      <tr>
+                        <th scope="col"></th>
+                        <th scope="col">Nome</th>
+                        <th scope="col">Tipo do Gasto</th>
+                        <th scope="col">Valor R$</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        {% for n in range(tamanhoCombustivel-1,tamanhoCombustivel-11,-1) %}
+                            <tr>
+                                <th scope="row">{{ (tamanhoCombustivel) - n }}</th>
+                                <td>{{ top10combustivel[n]['Nome'] }}</td>
+                                <td>{{ top10combustivel[n]['Gasto'] }}</td>
+                                <td>{{ "R$ %.2f" % top10combustivel[n]['Total']}}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+
+                
+    </body>
+</html>
